@@ -73,13 +73,12 @@ async function getByName(name, entityName) {
 async function create(name, entityName) {
   const item = await getByName(name, entityName);
   if (!item) {
-    console.log("name", name);
     return await strapi.entityService.create(
       `api::${entityName}.${entityName}`,
       {
         data: {
           name,
-          slug: slugify(name, { lower: true }),
+          slug: slugify(name.replace(/[!,?]/g, ""), { lower: true }),
         },
       }
     );
